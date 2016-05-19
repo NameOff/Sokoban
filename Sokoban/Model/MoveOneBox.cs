@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Sokoban.Infrastructure;
 using Sokoban.Model.Interfaces;
 
@@ -24,6 +20,7 @@ namespace Sokoban.Model
 
         public MovableObjects Move(MovableObjects movableObjects)
         {
+            //TODO Downcast!!!
             var newKeeper = (WarehouseKeeper)movableObjects.WarehouseKeeper.MoveTo(Direction);
             var boxes = movableObjects.Boxes
                 .Select(box =>

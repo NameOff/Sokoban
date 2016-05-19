@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sokoban.Infrastructure;
+﻿using Sokoban.Infrastructure;
+using Sokoban.Model.Interfaces;
 
 namespace Sokoban
 {
-    public class Floor : IGameObject
+    public class Floor : IImmovable
     {
         public Vector Location { get; }
+        public bool IsPassable { get; } = true;
     }
 }
