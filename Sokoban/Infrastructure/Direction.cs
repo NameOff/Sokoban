@@ -1,4 +1,4 @@
-﻿namespace Sokoban.Model
+﻿namespace Sokoban.Infrastructure
 {
     public class Direction
     {
