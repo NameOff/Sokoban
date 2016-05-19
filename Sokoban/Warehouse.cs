@@ -9,6 +9,6 @@ namespace Sokoban
 {
     class Warehouse
     {
-        public readonly ImmutableArray<ImmutableArray<Location>> Map;
+        public readonly ImmutableArray<ImmutableArray<IGameObject>> Map;
     }
 }
