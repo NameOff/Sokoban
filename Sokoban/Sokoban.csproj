@@ -47,12 +47,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\GameObjects\Box.cs" />
+    <Compile Include="Infrastructure\EnumerableExtension.cs" />
     <Compile Include="Model\Direction.cs" />
+    <Compile Include="Model\GameObjects\Box.cs" />
     <Compile Include="Model\GameObjects\Floor.cs" />
-    <Compile Include="Model\Game.cs" />
-    <Compile Include="Model\IGameObject.cs" />
-    <Compile Include="Model\Location.cs" />
+    <Compile Include="Model\Interfaces\IAction.cs" />
+    <Compile Include="Model\Interfaces\IImmovable.cs" />
+    <Compile Include="Model\Interfaces\IMovable.cs" />
+    <Compile Include="Model\Interfaces\IGameObject.cs" />
+    <Compile Include="Model\MovableObjects.cs" />
+    <Compile Include="Model\MoveOneBox.cs" />
+    <Compile Include="Model\Vector.cs" />
     <Compile Include="Model\GameObjects\Storage.cs" />
     <Compile Include="Model\GameObjects\Wall.cs" />
     <Compile Include="Model\Warehouse.cs" />

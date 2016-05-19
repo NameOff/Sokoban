@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Sokoban
 {
-    public class Floor : IGameObject
+    public interface IGameObject
     {
-        public Vector Location { get; }
+        Vector Location { get; }
     }
 }

@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sokoban.Model;
+using Sokoban.Model.Interfaces;
 
 namespace Sokoban
 {
-    class WarehouseKeeper : IGameObject
+    public class WarehouseKeeper : IMovable
     {
-        public Location Location { get; }
+        public Vector Location { get; }
 
-        public Game Move(Direction direction)
+        public WarehouseKeeper(Vector location)
         {
-            throw new NotImplementedException();
+            Location = location;
+        }
+
+        public IMovable MoveTo(Direction direction)
+        {
+            return new WarehouseKeeper(Location + direction.Vector);
         }
     }
 }

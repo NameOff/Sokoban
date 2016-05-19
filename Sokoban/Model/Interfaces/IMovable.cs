@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sokoban
+namespace Sokoban.Model.Interfaces
 {
-    interface IGameObject
+    public interface IMovable : IGameObject
     {
-        Location Location { get; }
-        //int DrawingPriority { get; }
+        IMovable MoveTo(Direction direction);
     }
 }

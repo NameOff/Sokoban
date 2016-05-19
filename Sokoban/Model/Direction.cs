@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Sokoban
+﻿namespace Sokoban.Model
 {
-    public enum Direction
+    public class Direction
     {
-        Up,
-        Down,
-        Left,
-        Right
+        public static readonly Direction Up = new Direction(0, -1);
+        public static readonly Direction Down = new Direction(0, 1);
+        public static readonly Direction Left = new Direction(-1, 0);
+        public static readonly Direction Right = new Direction(1, 0);
+
+
+        public readonly Vector Vector;
+        private Direction(int x, int y)
+        {
+            Vector = new Vector(x, y);
+        }
     }
 }

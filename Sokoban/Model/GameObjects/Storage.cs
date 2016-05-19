@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sokoban.Model.Interfaces;
 
 namespace Sokoban
 {
-    class Storage : IGameObject
+    public class Storage : IImmovable
     {
-        public Location Location { get; }
+        public Vector Location { get; }
+        public bool IsPassable { get; }
     }
 }
