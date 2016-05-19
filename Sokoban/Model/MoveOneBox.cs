@@ -11,9 +11,14 @@ namespace Sokoban.Model
     {
         public Direction Direction { get; }
 
-        public MoveOneBox(Direction direction)
+        private MoveOneBox(Direction direction)
         {
             Direction = direction;
+        }
+
+        public static MoveOneBox To(Direction direction)
+        {
+            return new MoveOneBox(direction);
         }
 
         public MovableObjects Move(MovableObjects movableObjects)
