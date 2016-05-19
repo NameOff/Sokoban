@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace Sokoban
 {
-    class Program
+    class Location
     {
-        static void Main(string[] args)
+        public readonly int X;
+        public readonly int Y;
+
+        public Location(int x, int y)
         {
+            X = x;
+            Y = y;
         }
     }
 }

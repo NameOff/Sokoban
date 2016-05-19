@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Sokoban
 {
-    class Storage : IGameObject
+    interface IGameObject
     {
-        public Location Location { get; }
+        Location Location { get; }
     }
 }

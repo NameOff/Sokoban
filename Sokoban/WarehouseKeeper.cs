@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Sokoban
 {
-    class WarehouseKeeper
+    class WarehouseKeeper : IGameObject
     {
+        public Location Location { get; }
     }
 }
