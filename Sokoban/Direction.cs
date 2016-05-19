@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Sokoban
 {
-    interface IGameObject
+    public enum Direction
     {
-        Location Location { get; }
-        //int DrawingPriority { get; }
+        Up,
+        Down,
+        Left,
+        Right
     }
 }

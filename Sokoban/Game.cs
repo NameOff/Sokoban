@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Sokoban
 {
-    class WarehouseKeeper : IGameObject
+    class Game
     {
-        public Location Location { get; }
+        public Game()
+        {
+            throw new NotImplementedException();    
+        }
 
-        public Game Move(Direction direction)
+        public void Run()
         {
             throw new NotImplementedException();
         }
