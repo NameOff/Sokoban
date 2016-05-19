@@ -8,7 +8,7 @@ namespace Sokoban
 {
     class Game
     {
-        public Game()
+        public Game(Warehouse warehouse)
         {
             throw new NotImplementedException();    
         }
