@@ -1,6 +1,6 @@
 ﻿using Sokoban.Infrastructure;
 
-namespace Sokoban
+namespace Sokoban.Model.Interfaces
 {
     public interface IGameObject
     {

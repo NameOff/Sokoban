@@ -1,7 +1,7 @@
 ﻿using Sokoban.Infrastructure;
 using Sokoban.Model.Interfaces;
 
-namespace Sokoban
+namespace Sokoban.Model.GameObjects
 {
     public class Storage : IImmovable
     {

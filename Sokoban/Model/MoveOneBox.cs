@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Sokoban.Infrastructure;
+using Sokoban.Model.GameObjects;
 using Sokoban.Model.Interfaces;
 
 namespace Sokoban.Model
