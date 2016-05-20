@@ -1,6 +1,6 @@
 ﻿namespace Sokoban.Model.Interfaces
 {
-    public interface IImmovable : IGameObject
+    public interface IStaticObject : IGameObject
     {
         bool IsPassable { get; }
     }
