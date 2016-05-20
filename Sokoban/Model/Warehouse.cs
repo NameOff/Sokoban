@@ -8,11 +8,11 @@ namespace Sokoban.Model
 {
     public class Warehouse
     {
-        public readonly ImmutableDictionary<Vector, IImmovable> ImmovableObjects;
+        public readonly ImmutableDictionary<Vector, IStaticObject> ImmovableObjects;
         public readonly MovableObjects MovableObjects;
         private readonly Warehouse previousWarehouse;
 
-        public IEnumerable<T> GetAll<T>() where T : class, IImmovable
+        public IEnumerable<T> GetAll<T>() where T : class, IStaticObject
         {
             return GetAllObjects()
                 .Select(e => e as T)
@@ -28,7 +28,7 @@ namespace Sokoban.Model
             yield return MovableObjects.WarehouseKeeper;
         }
 
-        public Warehouse(MovableObjects movableObjects, IEnumerable<IImmovable> immovableObjects)
+        public Warehouse(MovableObjects movableObjects, IEnumerable<IStaticObject> immovableObjects)
         {
             MovableObjects = movableObjects;
             ImmovableObjects = immovableObjects.ToImmutableDictionary(obj => obj.Location);

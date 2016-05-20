@@ -3,7 +3,7 @@ using Sokoban.Model.Interfaces;
 
 namespace Sokoban.Model.GameObjects
 {
-    public class WarehouseKeeper : IMovable
+    public class WarehouseKeeper : IDynamicObject
     {
         public Vector Location { get; }
 
@@ -12,7 +12,7 @@ namespace Sokoban.Model.GameObjects
             Location = location;
         }
 
-        public IMovable MoveTo(Direction direction)
+        public IDynamicObject MoveTo(Direction direction)
         {
             return new WarehouseKeeper(Location + direction.Vector);
         }
