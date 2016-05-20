@@ -2,16 +2,22 @@
 using System.Collections.Immutable;
 using System.Linq;
 using Sokoban.Infrastructure;
-using Sokoban.Model;
 using Sokoban.Model.Interfaces;
 
-namespace Sokoban
+namespace Sokoban.Model
 {
     public class Warehouse
     {
         public readonly ImmutableDictionary<Vector, IImmovable> ImmovableObjects;
         public readonly MovableObjects MovableObjects;
         private readonly Warehouse previousWarehouse;
+
+        public IEnumerable<T> GetAll<T>() where T : class, IImmovable
+        {
+            return ImmovableObjects.Values
+                .Select(e => e as T)
+                .Where(e => e != null);
+        }
 
         public Warehouse(MovableObjects movableObjects, IEnumerable<IImmovable> immovableObjects)
         {
@@ -31,7 +37,7 @@ namespace Sokoban
             var newMovable = action.Move(MovableObjects);
 
             if (newMovable.AllLocations.AllDifferent() &&
-                newMovable.AllLocations.Any(IsPassable))
+                newMovable.AllLocations.All(IsPassable))
                 return new Warehouse(this, newMovable);
 
             return this;
