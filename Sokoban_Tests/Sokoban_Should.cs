@@ -3,11 +3,13 @@ using FluentAssertions;
 
 namespace Sokoban_Tests
 {
+    [TestFixture]
     class Sokoban_Should
     {
-        static void Main(string[] args)
+        [Test]
+        public void DoSomething_WhenSomething()
         {
-
+            
         }
     }
 }
