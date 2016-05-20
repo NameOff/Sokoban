@@ -14,9 +14,18 @@ namespace Sokoban.Model
 
         public IEnumerable<T> GetAll<T>() where T : class, IImmovable
         {
-            return ImmovableObjects.Values
+            return GetAllObjects()
                 .Select(e => e as T)
                 .Where(e => e != null);
+        }
+
+        public IEnumerable<IGameObject> GetAllObjects()
+        {
+            foreach (var immovable in ImmovableObjects.Values)
+                yield return immovable;
+            foreach (var box in MovableObjects.Boxes)
+                yield return box;
+            yield return MovableObjects.WarehouseKeeper;
         }
 
         public Warehouse(MovableObjects movableObjects, IEnumerable<IImmovable> immovableObjects)
