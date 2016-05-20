@@ -7,6 +7,7 @@ namespace Sokoban_Tests
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
