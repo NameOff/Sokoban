@@ -7,5 +7,10 @@ namespace Sokoban.Model.GameObjects
     {
         public Vector Location { get; }
         public bool IsPassable { get; } = true;
+
+        public Storage(Vector location)
+        {
+            Location = location;
+        }
     }
 }
