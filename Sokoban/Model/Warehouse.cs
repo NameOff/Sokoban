@@ -36,11 +36,6 @@ namespace Sokoban.Model
                 .Where(e => e != null);
         }
 
-        public IGameObject GetObjectIn(Vector location)
-        {
-           return AllObjects.FirstOrDefault(e => e.Location == location) ?? new Wall(location);
-        }
-
         public IEnumerable<IGameObject> AllObjects
         {
             get
