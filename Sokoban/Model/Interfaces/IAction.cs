@@ -1,10 +1,12 @@
-﻿using Sokoban.Infrastructure;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using Sokoban.Infrastructure;
+using Sokoban.Model.GameObjects;
 
 namespace Sokoban.Model.Interfaces
 {
     public interface IAction
     {
-        Direction Direction { get; }
-        MovableObjects Move(MovableObjects movableObjects);
+        ImmutableArray<Box> MoveBoxes(ImmutableArray<Box> boxes, Direction direction, WarehouseKeeper keeper);
     }
 }

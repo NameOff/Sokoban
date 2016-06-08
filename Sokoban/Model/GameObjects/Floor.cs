@@ -3,14 +3,13 @@ using Sokoban.Model.Interfaces;
 
 namespace Sokoban.Model.GameObjects
 {
-    public class Floor : IStaticObject
+    public class Floor : IPassableObject
     {
         public Vector Location { get; }
-        public bool IsPassable { get; } = true;
 
-        public Floor(Vector location)
+        public Floor(int x, int y)
         {
-            Location = location;
+            Location = new Vector(x, y);
         }
     }
 }

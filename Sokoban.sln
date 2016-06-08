@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban", "Sokoban\Sokoban.csproj", "{BABF4222-AE1E-402D-9009-700522411BDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban.Domain", "Sokoban\Sokoban.Domain.csproj", "{BABF4222-AE1E-402D-9009-700522411BDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban_Tests", "Sokoban_Tests\Sokoban_Tests.csproj", "{356BE259-E08B-42FB-8D00-484EA9592961}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban.Tests", "Sokoban.Tests\Sokoban.Tests.csproj", "{A3DF6686-26CF-4095-97AD-E209630E34CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{BABF4222-AE1E-402D-9009-700522411BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BABF4222-AE1E-402D-9009-700522411BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BABF4222-AE1E-402D-9009-700522411BDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{356BE259-E08B-42FB-8D00-484EA9592961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{356BE259-E08B-42FB-8D00-484EA9592961}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{356BE259-E08B-42FB-8D00-484EA9592961}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{356BE259-E08B-42FB-8D00-484EA9592961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3DF6686-26CF-4095-97AD-E209630E34CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3DF6686-26CF-4095-97AD-E209630E34CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3DF6686-26CF-4095-97AD-E209630E34CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DF6686-26CF-4095-97AD-E209630E34CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

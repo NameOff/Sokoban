@@ -53,7 +53,7 @@ namespace Sokoban_Tests
                         staticObjects.Add(new Floor(location));
                 }
             }
-            var movableObjects = new MovableObjects(boxes, warehouseKeeper);
+            var movableObjects = new DynamicObjects(boxes, warehouseKeeper);
             return new Warehouse(movableObjects, staticObjects);
         }
 
@@ -61,16 +61,16 @@ namespace Sokoban_Tests
         [Test]
         public void ChangeHeroCoordinates_AfterMoveHero()
         {
-            var newWarehouse = warehouse.ChangeAfter(MoveOneBox.To(Direction.Up));
-            var newKeeper = newWarehouse.MovableObjects.WarehouseKeeper;
+            var newWarehouse = warehouse.ChangeAfter(RegularMove.To(Direction.Up));
+            var newKeeper = newWarehouse.DynamicObjects.WarehouseKeeper;
             newKeeper.Location.Should().Be(new Vector(1, 1));
         }
 
         [Test]
         public void DoSomething_WhenSomething()
         {
-            var newWarehouse = warehouse.ChangeAfter(MoveOneBox.To(Direction.Right));
-            var newKeeper = newWarehouse.MovableObjects.WarehouseKeeper;
+            var newWarehouse = warehouse.ChangeAfter(RegularMove.To(Direction.Right));
+            var newKeeper = newWarehouse.DynamicObjects.WarehouseKeeper;
             newKeeper.Location.Should().Be(new Vector(1, 2));
         }
     }

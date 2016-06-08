@@ -2,52 +2,66 @@
 using System.Collections.Immutable;
 using System.Linq;
 using Sokoban.Infrastructure;
+using Sokoban.Model.GameObjects;
 using Sokoban.Model.Interfaces;
 
 namespace Sokoban.Model
 {
     public class Warehouse
     {
-        public readonly ImmutableDictionary<Vector, IStaticObject> ImmovableObjects;
-        public readonly MovableObjects MovableObjects;
+        public readonly ImmutableDictionary<Vector, IGameObject> StaticObjects;
+        public readonly ImmutableArray<Box> Boxes;
+        public readonly WarehouseKeeper Keeper;
         private readonly Warehouse previousWarehouse;
 
-        public IEnumerable<T> GetAll<T>() where T : class, IStaticObject
+        public Warehouse(IEnumerable<IGameObject> staticObjects, IEnumerable<Box> boxes, WarehouseKeeper keeper)
         {
-            return GetAllObjects()
+            StaticObjects = staticObjects.ToImmutableDictionary(obj => obj.Location);
+            Boxes = boxes.ToImmutableArray();
+            Keeper = keeper;
+        }
+
+        private Warehouse(Warehouse previous, ImmutableArray<Box> boxes, WarehouseKeeper keeper)
+        {
+            previousWarehouse = previous;
+            StaticObjects = previous.StaticObjects;
+            Boxes = boxes;
+            Keeper = keeper;
+        }
+
+        public IEnumerable<T> GetAll<T>() where T : class, IGameObject
+        {
+            return AllObjects
                 .Select(e => e as T)
                 .Where(e => e != null);
         }
 
-        public IEnumerable<IGameObject> GetAllObjects()
+        public IGameObject GetObjectIn(Vector location)
         {
-            foreach (var immovable in ImmovableObjects.Values)
-                yield return immovable;
-            foreach (var box in MovableObjects.Boxes)
-                yield return box;
-            yield return MovableObjects.WarehouseKeeper;
+           return AllObjects.FirstOrDefault(e => e.Location == location) ?? new Wall(location);
         }
 
-        public Warehouse(MovableObjects movableObjects, IEnumerable<IStaticObject> immovableObjects)
+        public IEnumerable<IGameObject> AllObjects
         {
-            MovableObjects = movableObjects;
-            ImmovableObjects = immovableObjects.ToImmutableDictionary(obj => obj.Location);
+            get
+            {
+                foreach (var staticObj in StaticObjects.Values)
+                    yield return staticObj;
+                foreach (var box in Boxes)
+                    yield return box;
+            }
         }
 
-        private Warehouse(Warehouse previousWarehouse, MovableObjects movableObjects)
+        public Warehouse MoveKeeper<TAction>(Direction direction) where TAction : class, IAction, new()
         {
-            this.previousWarehouse = previousWarehouse;
-            ImmovableObjects = previousWarehouse.ImmovableObjects;
-            MovableObjects = movableObjects;
-        }
+            var newBoxes = new TAction().MoveBoxes(Boxes, direction, Keeper);
+            var newKeeper = Keeper.Move(direction);
 
-        public Warehouse ChangeAfter(IAction action)
-        {
-            var newMovable = action.Move(MovableObjects);
-
-            if (newMovable.AllLocations.AllDifferent() &&
-                newMovable.AllLocations.All(IsPassable))
-                return new Warehouse(this, newMovable);
+            if (IsPassable(newKeeper.Location) &&
+                newBoxes.All(box => box.Location != newKeeper.Location) &&
+                newBoxes.All(box => IsPassable(box.Location)) &&
+                newBoxes.AllDifferent())
+                return new Warehouse(this, newBoxes, newKeeper);
 
             return this;
         }
@@ -59,7 +73,7 @@ namespace Sokoban.Model
 
         private bool IsPassable(Vector location)
         {
-            return ImmovableObjects.ContainsKey(location) && ImmovableObjects[location].IsPassable;
+            return StaticObjects.ContainsKey(location) && StaticObjects[location] is IPassableObject;
         }
     }
 }

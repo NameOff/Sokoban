@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Sokoban.Infrastructure
 {
-    public static class EnumerableExtension
+    public static class EnumerableExtensions
     {
         public static bool AllDifferent<T>(this IEnumerable<T> source)
         {
