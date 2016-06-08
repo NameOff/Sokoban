@@ -21,7 +21,7 @@ namespace Sokoban.Model.GameObjects
             return new Box(Location + direction.Vector);
         }
 
-        #region Entity semantics
+        #region Value semantics
 
         public override bool Equals(object obj)
         {

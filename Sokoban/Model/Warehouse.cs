@@ -12,7 +12,7 @@ namespace Sokoban.Model
         public readonly ImmutableDictionary<Vector, IGameObject> StaticObjects;
         public readonly ImmutableArray<Box> Boxes;
         public readonly WarehouseKeeper Keeper;
-        private readonly Warehouse previousWarehouse;
+
 
         public Warehouse(IEnumerable<IGameObject> staticObjects, IEnumerable<Box> boxes, WarehouseKeeper keeper)
         {
@@ -21,30 +21,11 @@ namespace Sokoban.Model
             Keeper = keeper;
         }
 
-        private Warehouse(Warehouse previous, ImmutableArray<Box> boxes, WarehouseKeeper keeper)
+        private Warehouse(ImmutableDictionary<Vector, IGameObject> staticObjects, ImmutableArray<Box> boxes, WarehouseKeeper keeper)
         {
-            previousWarehouse = previous;
-            StaticObjects = previous.StaticObjects;
+            StaticObjects = staticObjects;
             Boxes = boxes;
             Keeper = keeper;
-        }
-
-        public IEnumerable<T> GetAll<T>() where T : class, IGameObject
-        {
-            return AllObjects
-                .Select(e => e as T)
-                .Where(e => e != null);
-        }
-
-        public IEnumerable<IGameObject> AllObjects
-        {
-            get
-            {
-                foreach (var staticObj in StaticObjects.Values)
-                    yield return staticObj;
-                foreach (var box in Boxes)
-                    yield return box;
-            }
         }
 
         public Warehouse MoveKeeper<TAction>(Direction direction) where TAction : class, IAction, new()
@@ -56,15 +37,11 @@ namespace Sokoban.Model
                 newBoxes.All(box => box.Location != newKeeper.Location) &&
                 newBoxes.All(box => IsPassable(box.Location)) &&
                 newBoxes.AllDifferent())
-                return new Warehouse(this, newBoxes, newKeeper);
+                return new Warehouse(StaticObjects, newBoxes, newKeeper);
 
             return this;
         }
 
-        public Warehouse Undo()
-        {
-            return previousWarehouse ?? this;
-        }
 
         private bool IsPassable(Vector location)
         {

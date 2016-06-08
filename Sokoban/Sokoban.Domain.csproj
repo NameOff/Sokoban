@@ -58,6 +58,7 @@
     <Compile Include="Model\Interfaces\IAction.cs" />
     <Compile Include="Model\Interfaces\IPassableObject.cs" />
     <Compile Include="Model\Interfaces\IGameObject.cs" />
+    <Compile Include="Model\Level.cs" />
     <Compile Include="Model\RegularMove.cs" />
     <Compile Include="Infrastructure\Vector.cs" />
     <Compile Include="Model\GameObjects\Storage.cs" />
