@@ -6,10 +6,8 @@ namespace Sokoban.Model
 {
     public class Game
     {
-        public readonly ImmutableArray<Level> Levels;
         public readonly int LevelNumber;
-
-        public Level CurrentLevel => Levels[LevelNumber];
+        public readonly ImmutableArray<Level> Levels;
 
         public Game(IEnumerable<Level> levels)
         {
@@ -22,6 +20,8 @@ namespace Sokoban.Model
             Levels = levels;
             LevelNumber = oldLevelNumber + 1;
         }
+
+        public Level CurrentLevel => Levels[LevelNumber];
 
         public bool HasNextLevel()
         {

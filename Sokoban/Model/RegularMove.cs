@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Collections.Immutable;
 using Sokoban.Infrastructure;
 using Sokoban.Model.GameObjects;
 using Sokoban.Model.Interfaces;
@@ -11,7 +9,7 @@ namespace Sokoban.Model
     {
         public ImmutableArray<Box> MoveBoxes(ImmutableArray<Box> boxes, Direction direction, WarehouseKeeper keeper)
         {
-            for (int i = 0; i < boxes.Length; i++)
+            for (var i = 0; i < boxes.Length; i++)
             {
                 if (boxes[i].Location == keeper.Location + direction.Vector)
                     boxes = boxes.SetItem(i, boxes[i].Move(direction));

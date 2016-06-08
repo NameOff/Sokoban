@@ -61,7 +61,8 @@ namespace Sokoban.Model
 
         public bool IsOver()
         {
-            return GetAll<Box>().All(box => Warehouse.StaticObjects[box.Location] is Storage);
+            return GetAll<Box>()
+                .All(box => Warehouse.StaticObjects[box.Location] is Storage);
         }
     }
 }

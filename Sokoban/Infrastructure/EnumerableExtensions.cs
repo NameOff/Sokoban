@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,15 @@ namespace Sokoban.Infrastructure
                 hashSet.Add(e);
             }
             return true;
+        }
+
+        public static IEnumerable<T1> GetAll<T1, T2>(this IEnumerable<T2> source) 
+            where T1 : class 
+            where T2 : class
+        {
+            return source
+                .Select(e => e as T1)
+                .Where(e => e != null);
         }
     }
 }
