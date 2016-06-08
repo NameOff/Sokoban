@@ -13,31 +13,24 @@ namespace Sokoban.Model
     {
         public Warehouse Warehouse;
         public readonly int MovesCount;
-        private readonly Level previousLevel;
+        public readonly Level PreviousStep;
 
         public Level(Warehouse warehouse)
         {
             Warehouse = warehouse;
         }
 
-        private Level(Level previousLevel, Warehouse warehouse)
+        private Level(Level previousStep, Warehouse warehouse)
         {
-            this.previousLevel = previousLevel;
-            MovesCount = Warehouse == warehouse ? previousLevel.MovesCount : previousLevel.MovesCount + 1;
+            PreviousStep = previousStep;
+            MovesCount = Warehouse == warehouse ? previousStep.MovesCount : previousStep.MovesCount + 1;
             Warehouse = warehouse;
         }
 
-        public Level NextStep<TAction>(Direction dir) where TAction : class, IAction, new()
+        public Level NextStep<TAction>(Direction direction) where TAction : class, IAction, new()
         {
-            var newWarehouse = Warehouse.MoveKeeper<TAction>(dir);
+            var newWarehouse = Warehouse.MoveKeeper<TAction>(direction);
             return new Level(this, newWarehouse);
-        }
-
-        public Level PreviousStep()
-        {
-            if (previousLevel == null)
-                throw new InvalidOperationException();
-            return previousLevel;
         }
 
         public IEnumerable<IGameObject> AllObjects
@@ -54,9 +47,7 @@ namespace Sokoban.Model
 
         public IEnumerable<T> GetAll<T>() where T : class, IGameObject
         {
-            return AllObjects
-                .Select(e => e as T)
-                .Where(e => e != null);
+            return AllObjects.GetAll<T, IGameObject>();
         }
 
         public bool IsOver()

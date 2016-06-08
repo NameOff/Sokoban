@@ -11,11 +11,11 @@ namespace Sokoban.Tests
 {
     /* Game objects view
      * 
-     *    #####
-     *    #   #
-     *    # B #
+     *    ######
+     *    #    #
+     *    # B ##
      *    # KB#
-     *    #####
+     *    #####  Restart
      *  
      * '#' is Wall
      * 'B' is Box

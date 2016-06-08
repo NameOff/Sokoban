@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban.Domain", "Sokoban\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban.Tests", "Sokoban.Tests\Sokoban.Tests.csproj", "{A3DF6686-26CF-4095-97AD-E209630E34CA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban.WarehouseCreator", "Sokoban.WarehouseCreator\Sokoban.WarehouseCreator.csproj", "{45D2148B-2FDA-4271-A074-02005FFF3C8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A3DF6686-26CF-4095-97AD-E209630E34CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3DF6686-26CF-4095-97AD-E209630E34CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3DF6686-26CF-4095-97AD-E209630E34CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45D2148B-2FDA-4271-A074-02005FFF3C8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45D2148B-2FDA-4271-A074-02005FFF3C8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45D2148B-2FDA-4271-A074-02005FFF3C8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45D2148B-2FDA-4271-A074-02005FFF3C8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

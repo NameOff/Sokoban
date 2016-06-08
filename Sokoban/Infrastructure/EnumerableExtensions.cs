@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using Sokoban.Model.Interfaces;
 
 namespace Sokoban.Infrastructure
 {
@@ -22,8 +23,8 @@ namespace Sokoban.Infrastructure
         }
 
         public static IEnumerable<T1> GetAll<T1, T2>(this IEnumerable<T2> source) 
-            where T1 : class 
-            where T2 : class
+            where T1 : class
+            where T2 : class 
         {
             return source
                 .Select(e => e as T1)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Sokoban.Infrastructure;
@@ -32,14 +33,18 @@ namespace Sokoban.Model
         {
             var newBoxes = new TAction().MoveBoxes(Boxes, direction, Keeper);
             var newKeeper = Keeper.Move(direction);
+                    
+            var newWarehouse = new Warehouse(StaticObjects, newBoxes, newKeeper);
 
-            if (IsPassable(newKeeper.Location) &&
-                newBoxes.All(box => box.Location != newKeeper.Location) &&
-                newBoxes.All(box => IsPassable(box.Location)) &&
-                newBoxes.AllDifferent())
-                return new Warehouse(StaticObjects, newBoxes, newKeeper);
+            return newWarehouse.IsCorrectWarehouse() ? newWarehouse : this;
+        }
 
-            return this;
+        public bool IsCorrectWarehouse()
+        {
+            return IsPassable(Keeper.Location) &&
+                   Boxes.All(box => box.Location != Keeper.Location) &&
+                   Boxes.All(box => IsPassable(box.Location)) &&
+                   Boxes.AllDifferent();
         }
 
 
