@@ -1,10 +1,13 @@
 ﻿using System.Windows.Forms;
+using Sokoban.Model;
 
 namespace Sokoban.WarehouseCreator
 {
     public class WarehouseCreatorControl : WarehouseControl
     {
-        private readonly WarehouseCreator creator;
+        private WarehouseCreator creator;
+
+        public Warehouse CurrentWarehouse => creator.CurrentWarehouse;
 
         public WarehouseCreatorControl(WarehouseCreator creator) : base(creator.CurrentWarehouse)
         {
@@ -21,6 +24,13 @@ namespace Sokoban.WarehouseCreator
                 creator.SetKeeper(e.X/ElementSize, e.Y/ElementSize);
             Warehouse = creator.CurrentWarehouse;
             Invalidate();
+        }
+
+        public void SetNewCreator(WarehouseCreator newCreator)
+        {
+            Warehouse = newCreator.CurrentWarehouse;
+            Size = GetOptimalSize();
+            creator = newCreator;
         }
     }
 }

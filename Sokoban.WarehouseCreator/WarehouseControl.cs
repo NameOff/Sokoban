@@ -19,7 +19,7 @@ namespace Sokoban.WarehouseCreator
             Size = GetOptimalSize();
         }
 
-        private Size GetOptimalSize()
+        public Size GetOptimalSize()
         {
             var width = Warehouse.StaticObjects.Select(obj => obj.Location).Max(v => v.X) -
                         Warehouse.StaticObjects.Select(obj => obj.Location).Min(v => v.X);
