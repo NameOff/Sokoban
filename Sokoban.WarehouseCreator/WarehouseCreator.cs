@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Sokoban.Infrastructure;
+using System.Windows.Forms;
 using Sokoban.Model;
 using Sokoban.Model.GameObjects;
 using Sokoban.Model.Interfaces;
@@ -12,9 +12,25 @@ namespace Sokoban.WarehouseCreator
         private readonly IEnumerator<IGameObject>[,] staticObjects;
         private readonly Box[,] boxes;
         private WarehouseKeeper keeper;
+        private Warehouse currentWarehouse;
+        public readonly int Height;
+        public readonly int Width;
+        public IEnumerable<IGameObject> StaticsObjects => staticObjects
+         .Cast<IEnumerator<IGameObject>>()
+         .Select(obj => obj.Current);
+
+        public IEnumerable<Box> Boxes => boxes.Cast<Box>();
+
+        public IGameObject GetObject(int x, int y) => staticObjects[y, x].Current;
+        public Box GetBox(int x, int y) => boxes[y, x];
+
+        public WarehouseKeeper Keeper => keeper;
 
         public WarehouseCreator(int height, int width)
         {
+            Height = height;
+            Width = width;
+            SetKeeper(0, 0);
             staticObjects = new IEnumerator<IGameObject>[height, width];
 
             for (var y = 0; y < height; y++)
@@ -26,27 +42,26 @@ namespace Sokoban.WarehouseCreator
 
 
             boxes = new Box[height, width];
+
+            currentWarehouse = new Warehouse(StaticsObjects, Boxes, Keeper);
         }
 
-        public WarehouseKeeper SetKeeper(int x, int y)
+        public void SetKeeper(int x, int y)
         {
             keeper = new WarehouseKeeper(x, y);
-            return keeper;
         }
 
-        public Box SetBox(int x, int y)
+        public void SetBox(int x, int y)
         {
             if (boxes[y, x] != null)
                 boxes[y, x] = null;
             else
                 boxes[y, x] = new Box(x, y);
-            return boxes[y, x];
         }
 
-        public IGameObject NextStaticObject(int x, int y)
+        public void NextStaticObject(int x, int y)
         {
             staticObjects[y, x].MoveNext();
-            return staticObjects[y, x].Current;
         }
 
         private static IEnumerable<IGameObject> StaticObjectsGenerator(int x, int y)
@@ -62,11 +77,8 @@ namespace Sokoban.WarehouseCreator
 
         public bool TryGetWarehouse(out Warehouse warehouse)
         {
-            var staticObjectsCurrents = staticObjects
-                .Cast<IEnumerator<IGameObject>>()
-                .Select(obj => obj.Current);
 
-            warehouse = new Warehouse(staticObjectsCurrents, boxes.Cast<Box>(), keeper);
+            warehouse = new Warehouse(StaticsObjects, Boxes, keeper);
 
             if (keeper != null && warehouse.IsCorrectWarehouse())
                 return true;
