@@ -42,8 +42,8 @@ namespace Sokoban.WarehouseCreator
             Controls.Add(table);
 
 
-            heightControl.Text = creator.Height.ToString();
-            widthControl.Text = creator.Width.ToString();
+            heightControl.Value = creator.Height - 1;
+            widthControl.Value = creator.Width - 1;
 
             heightControl.ValueChanged += CreatorResize;
             widthControl.ValueChanged += CreatorResize;
