@@ -19,6 +19,7 @@ namespace Sokoban.Application
         {
             return Directory
                 .GetFiles("Levels")
+                .OrderBy(file => file)
                 .Select(file => new Level(JsonHelper.Deserialize<Warehouse>(file)));
         }
 
@@ -28,7 +29,7 @@ namespace Sokoban.Application
             var levels = LoadLevels().ToList();
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
-            System.Windows.Forms.Application.Run(new WarehouseGameForm(new KeyboardController(), levels));
+            System.Windows.Forms.Application.Run(new WarehouseGameForm(new XboxGamepad(), levels));
         }
     }
 }

@@ -61,7 +61,6 @@
     <Compile Include="Infrastructure\Direction.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\JsonHelper.cs" />
-    <Compile Include="Model\Game.cs" />
     <Compile Include="Model\GameObjects\Box.cs" />
     <Compile Include="Model\GameObjects\Floor.cs" />
     <Compile Include="Model\Interfaces\IAction.cs" />

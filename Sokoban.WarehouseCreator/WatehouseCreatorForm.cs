@@ -21,9 +21,9 @@ namespace Sokoban.WarehouseCreator
 
             heightControl = new NumericUpDown();
             widthControl = new NumericUpDown();
-            heightControl.Maximum = 10;
+            heightControl.Maximum = 12;
             heightControl.Minimum = 1;
-            widthControl.Maximum = 15;
+            widthControl.Maximum = 17;
             widthControl.Minimum = 1;
 
             var creatorControls = new TableLayoutPanel();
@@ -42,8 +42,8 @@ namespace Sokoban.WarehouseCreator
             Controls.Add(table);
 
 
-            heightControl.Value = creator.Height - 1;
-            widthControl.Value = creator.Width - 1;
+            heightControl.Value = creator.Height;
+            widthControl.Value = creator.Width;
 
             heightControl.ValueChanged += CreatorResize;
             widthControl.ValueChanged += CreatorResize;
@@ -68,7 +68,7 @@ namespace Sokoban.WarehouseCreator
 
         private void CreatorResize(object sender, System.EventArgs e)
         {
-            var newCreator = new WarehouseCreator((int)heightControl.Value + 1, (int)widthControl.Value + 1);
+            var newCreator = new WarehouseCreator((int)heightControl.Value, (int)widthControl.Value);
             warehouseCreatorControl.SetNewCreator(newCreator);
             Size = table.Size;
         }

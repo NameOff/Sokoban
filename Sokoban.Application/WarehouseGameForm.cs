@@ -17,7 +17,7 @@ namespace Sokoban.Application
         public Level CurrentLevel;
         public int TickCount;
         public IEnumerator<Level> Levels;
-        
+
 
         public WarehouseGameForm(IGameController gameController, IEnumerable<Level> levels)
         {
@@ -32,7 +32,7 @@ namespace Sokoban.Application
             KeyPreview = true;
 
             var timer = new Timer();
-            timer.Interval = 80;
+            timer.Interval = 100;
             timer.Tick += TimerTick;
             timer.Start();
             TickCount = 0;
@@ -46,15 +46,16 @@ namespace Sokoban.Application
                 CurrentControl.SetWarehouse(CurrentLevel.Warehouse);
                 return;
             }
-            var button = GameController.GetDirection();
-            if (button == Direction.None)
+            var direction = GameController.GetDirection();
+            if (direction == Direction.None)
                 return;
-            CurrentLevel = CurrentLevel.NextStep<RegularMove>(button);
+            CurrentLevel = CurrentLevel.NextStep<RegularMove>(direction);
             CurrentControl.SetWarehouse(CurrentLevel.Warehouse);
-            /* (CurrentLevel.IsOver() && Levels.MoveNext())
+            if (CurrentLevel.IsOver() && Levels.MoveNext())
             {
-                CurrentLevel = 
-            }*/
+                    CurrentLevel = Levels.Current;
+                    CurrentControl.SetWarehouse(CurrentLevel.Warehouse);
+            }
         }
     }
 }

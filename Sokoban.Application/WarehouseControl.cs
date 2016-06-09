@@ -23,6 +23,7 @@ namespace Sokoban.Application
         public void SetWarehouse(Warehouse warehouse)
         {
             Warehouse = warehouse;
+            Size = GetOptimalSize();
             Invalidate();
         }
 
