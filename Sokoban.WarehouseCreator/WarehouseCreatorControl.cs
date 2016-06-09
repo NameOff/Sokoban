@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using Sokoban.Model;
+using Sokoban.Application;
 
 namespace Sokoban.WarehouseCreator
 {

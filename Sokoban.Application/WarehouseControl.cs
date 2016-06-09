@@ -1,11 +1,12 @@
 ﻿using System.Drawing;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 using Sokoban.Model;
 using Sokoban.Model.GameObjects;
+using System.Linq;
 using Sokoban.Model.Interfaces;
 
-namespace Sokoban.WarehouseCreator
+namespace Sokoban.Application
 {
     public class WarehouseControl : Control
     {
@@ -19,35 +20,43 @@ namespace Sokoban.WarehouseCreator
             Size = GetOptimalSize();
         }
 
+        public void SetWarehouse(Warehouse warehouse)
+        {
+            Warehouse = warehouse;
+            Invalidate();
+        }
+
         public Size GetOptimalSize()
         {
             var width = Warehouse.StaticObjects.Select(obj => obj.Location).Max(v => v.X) -
-                        Warehouse.StaticObjects.Select(obj => obj.Location).Min(v => v.X);
+                        Warehouse.StaticObjects.Select(obj => obj.Location).Min(v => v.X) + 1;
             var height = Warehouse.StaticObjects.Select(obj => obj.Location).Max(v => v.Y) -
-                         Warehouse.StaticObjects.Select(obj => obj.Location).Min(v => v.Y);
-            return new Size(width*ElementSize, height*ElementSize);
+                         Warehouse.StaticObjects.Select(obj => obj.Location).Min(v => v.Y) + 1;
+
+            return new Size(width * ElementSize, height * ElementSize);
         }
 
         private Bitmap GetImage(IGameObject obj)
         {
+            const string folder = "Images";
             if (obj is Wall)
-                return new Bitmap("Wall.png");
+                return new Bitmap(Path.Combine(folder, "Wall.png"));
             if (obj is Floor)
-                return new Bitmap("Floor.png");
+                return new Bitmap(Path.Combine(folder, "Floor.png"));
             if (obj is Storage)
-                return new Bitmap("Storage.png");
+                return new Bitmap(Path.Combine(folder, "Storage.png"));
             if (obj is WarehouseKeeper)
-                return new Bitmap("WarehouseKeeper.png");
+                return new Bitmap(Path.Combine(folder, "WarehouseKeeper.png"));
             if (obj is Box && Warehouse.GetStaticObject(obj.Location) is Storage)
-                return new Bitmap("BoxOnStorage.png");
-            return new Bitmap("Box.png");
+                return new Bitmap(Path.Combine(folder, "BoxOnStorage.png"));
+            return new Bitmap(Path.Combine(folder, "Box.png"));
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            foreach (var staticsObject in Warehouse.StaticObjects)
+            foreach (var staticObject in Warehouse.StaticObjects)
             {
-                PaintObject(e, staticsObject);
+                PaintObject(e, staticObject);
             }
 
             foreach (var box in Warehouse.Boxes)
@@ -65,8 +74,8 @@ namespace Sokoban.WarehouseCreator
             var image = GetImage(obj);
 
             e.Graphics.DrawImage(image, new Rectangle(
-                obj.Location.X*ElementSize,
-                obj.Location.Y*ElementSize,
+                obj.Location.X * ElementSize,
+                obj.Location.Y * ElementSize,
                 ElementSize, ElementSize));
         }
     }

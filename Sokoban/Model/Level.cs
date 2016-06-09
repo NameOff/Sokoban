@@ -42,7 +42,7 @@ namespace Sokoban.Model
             return Warehouse == newWarehouse ? this : new Level(this, newWarehouse);
         }
 
-        public Level Undo()
+        public Level PreviousStep()
         {
             return previousStep ?? this;
         }

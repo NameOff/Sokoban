@@ -11,9 +11,9 @@ namespace Sokoban.WarehouseCreator
         [STAThread]
         private static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WarehouseCreatorForm(new WarehouseCreator(10, 10)));
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.Run(new WarehouseCreatorForm(new WarehouseCreator(10, 10)));
         }
     }
 }

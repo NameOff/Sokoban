@@ -61,7 +61,7 @@ namespace Sokoban.Tests
         [Test]
         public void ReturnCurrentLevel_WhenUndoOnCreated()
         {
-            level.Undo().Should().Be(level);
+            level.PreviousStep().Should().Be(level);
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Sokoban.Tests
         public void ReturnSameLevel_AfterUndoOnCorrectMove()
         {
             var newLevel = level.NextStep<RegularMove>(Direction.Up);
-            newLevel.Undo().Should().BeSameAs(level);
+            newLevel.PreviousStep().Should().BeSameAs(level);
         }
 
         [Test]

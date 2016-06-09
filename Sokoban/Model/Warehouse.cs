@@ -14,7 +14,7 @@ namespace Sokoban.Model
 
         [JsonProperty] public readonly WarehouseKeeper Keeper;
 
-        public readonly ImmutableArray<IGameObject> StaticObjects;
+        [JsonProperty] public readonly ImmutableArray<IGameObject> StaticObjects;
 
         [JsonConstructor]
         public Warehouse(IEnumerable<IGameObject> staticObjects, IEnumerable<Box> boxes, WarehouseKeeper keeper)

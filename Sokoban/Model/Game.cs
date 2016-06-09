@@ -1,38 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using Sokoban.Infrastructure;
+using Sokoban.Model.Interfaces;
 
 namespace Sokoban.Model
 {
     public class Game
     {
-        public readonly int LevelNumber;
-        public readonly ImmutableArray<Level> Levels;
-
-        public Game(IEnumerable<Level> levels)
+        public IEnumerable<Level> Play(Level level, Func<Level, Direction> getNextMove)
         {
-            Levels = levels.ToImmutableArray();
-            LevelNumber = 0;
+            var currentLevel = level;
+            yield return currentLevel;
+            while (!level.IsOver())
+            {
+                currentLevel = currentLevel.NextStep<RegularMove>(getNextMove(currentLevel));
+                yield return currentLevel;
+            }
         }
 
-        private Game(ImmutableArray<Level> levels, int oldLevelNumber)
-        {
-            Levels = levels;
-            LevelNumber = oldLevelNumber + 1;
-        }
-
-        public Level CurrentLevel => Levels[LevelNumber];
-
-        public bool HasNextLevel()
-        {
-            return LevelNumber < Levels.Length;
-        }
-
-        public Game NextLevel()
-        {
-            if (HasNextLevel())
-                return new Game(Levels, LevelNumber);
-            throw new InvalidOperationException();
-        }
     }
 }
