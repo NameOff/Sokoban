@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sokoban.Infrastructure;
 using Sokoban.Model.GameObjects;
 using Sokoban.Model.Interfaces;
@@ -11,9 +8,9 @@ namespace Sokoban.Model
 {
     public class Level
     {
-        public Warehouse Warehouse;
         public readonly int MovesCount;
         public readonly Level PreviousStep;
+        public Warehouse Warehouse;
 
         public Level(Warehouse warehouse)
         {
@@ -27,22 +24,22 @@ namespace Sokoban.Model
             Warehouse = warehouse;
         }
 
-        public Level NextStep<TAction>(Direction direction) where TAction : class, IAction, new()
-        {
-            var newWarehouse = Warehouse.MoveKeeper<TAction>(direction);
-            return new Level(this, newWarehouse);
-        }
-
         public IEnumerable<IGameObject> AllObjects
         {
             get
             {
-                foreach (var staticObj in Warehouse.StaticObjects.Values)
+                foreach (var staticObj in Warehouse.StaticObjects)
                     yield return staticObj;
                 foreach (var box in Warehouse.Boxes)
                     yield return box;
                 yield return Warehouse.Keeper;
             }
+        }
+
+        public Level NextStep<TAction>(Direction direction) where TAction : class, IAction, new()
+        {
+            var newWarehouse = Warehouse.MoveKeeper<TAction>(direction);
+            return new Level(this, newWarehouse);
         }
 
         public IEnumerable<T> GetAll<T>() where T : class, IGameObject
@@ -53,7 +50,7 @@ namespace Sokoban.Model
         public bool IsOver()
         {
             return GetAll<Box>()
-                .All(box => Warehouse.StaticObjects[box.Location] is Storage);
+                .All(box => Warehouse.GetStaticObject(box.Location) is Storage);
         }
     }
 }

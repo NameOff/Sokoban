@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using Newtonsoft.Json;
 using Sokoban.Infrastructure;
 using Sokoban.Model.GameObjects;
 using Sokoban.Model.Interfaces;
@@ -10,19 +10,22 @@ namespace Sokoban.Model
 {
     public class Warehouse
     {
-        public readonly ImmutableDictionary<Vector, IGameObject> StaticObjects;
-        public readonly ImmutableArray<Box> Boxes;
-        public readonly WarehouseKeeper Keeper;
+        [JsonProperty] public readonly ImmutableArray<Box> Boxes;
 
+        [JsonProperty] public readonly WarehouseKeeper Keeper;
 
+        public readonly ImmutableArray<IGameObject> StaticObjects;
+
+        [JsonConstructor]
         public Warehouse(IEnumerable<IGameObject> staticObjects, IEnumerable<Box> boxes, WarehouseKeeper keeper)
         {
-            StaticObjects = staticObjects.ToImmutableDictionary(obj => obj.Location);
+            StaticObjects = staticObjects.ToImmutableArray();
             Boxes = boxes.ToImmutableArray();
             Keeper = keeper;
         }
 
-        private Warehouse(ImmutableDictionary<Vector, IGameObject> staticObjects, ImmutableArray<Box> boxes, WarehouseKeeper keeper)
+
+        private Warehouse(ImmutableArray<IGameObject> staticObjects, ImmutableArray<Box> boxes, WarehouseKeeper keeper)
         {
             StaticObjects = staticObjects;
             Boxes = boxes;
@@ -33,7 +36,7 @@ namespace Sokoban.Model
         {
             var newBoxes = new TAction().MoveBoxes(Boxes, direction, Keeper);
             var newKeeper = Keeper.Move(direction);
-                    
+
             var newWarehouse = new Warehouse(StaticObjects, newBoxes, newKeeper);
 
             return newWarehouse.IsCorrectWarehouse() ? newWarehouse : this;
@@ -47,10 +50,17 @@ namespace Sokoban.Model
                    Boxes.AllDifferent();
         }
 
+        public IGameObject GetStaticObject(Vector location)
+        {
+            if (!StaticObjects.Select(obj => obj.Location).Contains(location))
+                return new Wall(location);
+            return StaticObjects.First(obj => obj.Location == location);
+        }
+
 
         private bool IsPassable(Vector location)
         {
-            return StaticObjects.ContainsKey(location) && StaticObjects[location] is IPassableObject;
+            return GetStaticObject(location) is IPassableObject;
         }
     }
 }

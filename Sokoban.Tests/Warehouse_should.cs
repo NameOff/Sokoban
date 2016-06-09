@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Linq.Expressions;
 using FluentAssertions;
 using NUnit.Framework;
 using Sokoban.Infrastructure;
@@ -11,9 +10,9 @@ namespace Sokoban.Tests
 {
     /* Game objects view
      * 
-     *    ######
-     *    #    #
-     *    # B ##
+     *    #####
+     *    #   #
+     *    # B #
      *    # KB#
      *    #####  Restart
      *  
@@ -26,17 +25,6 @@ namespace Sokoban.Tests
     [TestFixture]
     public class Warehouse_should
     {
-        private ImmutableArray<IGameObject> staticObjects;
-        private ImmutableArray<Box> boxes;
-        private WarehouseKeeper keeper;
-        private Warehouse warehouse;
-
-        public ImmutableArray<IGameObject> SetItemToStaticObjects(IGameObject staticObject)
-        {
-            var arrayIndex = staticObject.Location.Y*5 + staticObject.Location.X;
-            return staticObjects.SetItem(arrayIndex, staticObject);
-        }
-
         [SetUp]
         public void SetUp()
         {
@@ -47,25 +35,21 @@ namespace Sokoban.Tests
                 new Wall(2, 0),
                 new Wall(3, 0),
                 new Wall(4, 0),
-
                 new Wall(0, 1),
                 new Floor(1, 1),
                 new Floor(2, 1),
                 new Floor(3, 1),
                 new Wall(4, 1),
-
                 new Wall(0, 2),
                 new Floor(1, 2),
                 new Floor(2, 2),
                 new Floor(3, 2),
                 new Wall(4, 2),
-
                 new Wall(0, 3),
                 new Floor(1, 3),
                 new Floor(2, 3),
                 new Floor(3, 3),
                 new Wall(4, 3),
-
                 new Wall(0, 4),
                 new Wall(1, 4),
                 new Wall(2, 4),
@@ -79,18 +63,29 @@ namespace Sokoban.Tests
             warehouse = new Warehouse(staticObjects, boxes, keeper);
         }
 
-        [Test]
-        public void NotChanged_WhenKeeperRegularMoveOnWall()
-        {
-            var newWarehouse = warehouse.MoveKeeper<RegularMove>(Direction.Down);
+        private ImmutableArray<IGameObject> staticObjects;
+        private ImmutableArray<Box> boxes;
+        private WarehouseKeeper keeper;
+        private Warehouse warehouse;
 
-            warehouse.Should().Be(newWarehouse);
+        public ImmutableArray<IGameObject> SetItemToStaticObjects(IGameObject staticObject)
+        {
+            var arrayIndex = staticObject.Location.Y*5 + staticObject.Location.X;
+            return staticObjects.SetItem(arrayIndex, staticObject);
         }
 
         [Test]
         public void NotChanged_WhenKeeperRegularMoveOnBlockedBox()
         {
             var newWarehouse = warehouse.MoveKeeper<RegularMove>(Direction.Right);
+
+            warehouse.Should().Be(newWarehouse);
+        }
+
+        [Test]
+        public void NotChanged_WhenKeeperRegularMoveOnWall()
+        {
+            var newWarehouse = warehouse.MoveKeeper<RegularMove>(Direction.Down);
 
             warehouse.Should().Be(newWarehouse);
         }

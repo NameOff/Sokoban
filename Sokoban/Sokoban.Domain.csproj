@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -53,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Infrastructure\Direction.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
+    <Compile Include="Infrastructure\JsonHelper.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\GameObjects\Box.cs" />
     <Compile Include="Model\GameObjects\Floor.cs" />
@@ -60,7 +65,6 @@
     <Compile Include="Model\Interfaces\IPassableObject.cs" />
     <Compile Include="Model\Interfaces\IGameObject.cs" />
     <Compile Include="Model\Level.cs" />
-    <Compile Include="Model\WarehouseParser.cs" />
     <Compile Include="Model\RegularMove.cs" />
     <Compile Include="Infrastructure\Vector.cs" />
     <Compile Include="Model\GameObjects\Storage.cs" />

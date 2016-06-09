@@ -1,4 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
+﻿using Newtonsoft.Json;
 using Sokoban.Infrastructure;
 using Sokoban.Model.Interfaces;
 
@@ -6,8 +6,7 @@ namespace Sokoban.Model.GameObjects
 {
     public class Wall : IGameObject
     {
-        public Vector Location { get; }
-
+        [JsonConstructor]
         public Wall(Vector location)
         {
             Location = location;
@@ -17,5 +16,7 @@ namespace Sokoban.Model.GameObjects
         {
             Location = new Vector(x, y);
         }
+
+        public Vector Location { get; }
     }
 }

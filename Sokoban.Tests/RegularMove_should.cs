@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿using System.Collections.Immutable;
 using FluentAssertions;
+using NUnit.Framework;
 using Sokoban.Infrastructure;
 using Sokoban.Model;
 using Sokoban.Model.GameObjects;

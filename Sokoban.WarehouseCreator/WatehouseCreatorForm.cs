@@ -4,7 +4,8 @@ namespace Sokoban.WarehouseCreator
 {
     public class WarehouseCreatorForm : Form
     {
-        private TableLayoutPanel table;
+        private readonly TableLayoutPanel table;
+
         public WarehouseCreatorForm(WarehouseCreator creator)
         {
             table = new TableLayoutPanel();
@@ -19,8 +20,6 @@ namespace Sokoban.WarehouseCreator
 
         protected override void OnPaint(PaintEventArgs e)
         {
-
         }
     }
-
 }

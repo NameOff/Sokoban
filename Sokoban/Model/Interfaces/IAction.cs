@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using Sokoban.Infrastructure;
 using Sokoban.Model.GameObjects;
 

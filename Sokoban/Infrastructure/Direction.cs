@@ -9,6 +9,7 @@
 
 
         public readonly Vector Vector;
+
         private Direction(int x, int y)
         {
             Vector = new Vector(x, y);

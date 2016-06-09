@@ -1,20 +1,24 @@
-﻿using Sokoban.Infrastructure;
+﻿using Newtonsoft.Json;
+using Sokoban.Infrastructure;
 using Sokoban.Model.Interfaces;
 
 namespace Sokoban.Model.GameObjects
 {
     public class Box : IGameObject
     {
-        public Vector Location { get; }
-
         public Box(int x, int y)
         {
             Location = new Vector(x, y);
         }
+
+
+        [JsonConstructor]
         public Box(Vector location)
         {
             Location = location;
         }
+
+        public Vector Location { get; }
 
         public Box Move(Direction direction)
         {
@@ -27,7 +31,7 @@ namespace Sokoban.Model.GameObjects
         {
             if (ReferenceEquals(null, obj)) return false;
             if (obj.GetType() != GetType()) return false;
-            var other = (Box)obj;
+            var other = (Box) obj;
             return other.Location == Location;
         }
 
