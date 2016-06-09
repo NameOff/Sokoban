@@ -59,12 +59,17 @@
     <Compile Include="Level_Should.cs" />
     <Compile Include="RegularMove_should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WarehouseCreator_Should.cs" />
     <Compile Include="Warehouse_should.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Sokoban.WarehouseCreator\Sokoban.WarehouseCreator.csproj">
+      <Project>{9D68CB44-2361-4569-8753-89E0C66B1BE0}</Project>
+      <Name>Sokoban.WarehouseCreator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sokoban\Sokoban.Domain.csproj">
       <Project>{BABF4222-AE1E-402D-9009-700522411BDA}</Project>
       <Name>Sokoban.Domain</Name>
