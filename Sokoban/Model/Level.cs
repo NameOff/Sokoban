@@ -9,7 +9,7 @@ namespace Sokoban.Model
     public class Level
     {
         public readonly int MovesCount;
-        public readonly Level PreviousStep;
+        private readonly Level previousStep;
         public Warehouse Warehouse;
 
         public Level(Warehouse warehouse)
@@ -19,8 +19,8 @@ namespace Sokoban.Model
 
         private Level(Level previousStep, Warehouse warehouse)
         {
-            PreviousStep = previousStep;
-            MovesCount = Warehouse == warehouse ? previousStep.MovesCount : previousStep.MovesCount + 1;
+            this.previousStep = previousStep;
+            MovesCount = previousStep.MovesCount + 1;
             Warehouse = warehouse;
         }
 
@@ -39,7 +39,12 @@ namespace Sokoban.Model
         public Level NextStep<TAction>(Direction direction) where TAction : class, IAction, new()
         {
             var newWarehouse = Warehouse.MoveKeeper<TAction>(direction);
-            return new Level(this, newWarehouse);
+            return Warehouse == newWarehouse ? this : new Level(this, newWarehouse);
+        }
+
+        public Level Undo()
+        {
+            return previousStep ?? this;
         }
 
         public IEnumerable<T> GetAll<T>() where T : class, IGameObject

@@ -58,7 +58,7 @@ namespace Sokoban.Model
         }
 
 
-        private bool IsPassable(Vector location)
+        public bool IsPassable(Vector location)
         {
             return GetStaticObject(location) is IPassableObject;
         }

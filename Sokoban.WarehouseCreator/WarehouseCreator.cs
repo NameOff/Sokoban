@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Sokoban.Infrastructure;
+using System.Windows.Forms;
 using Sokoban.Model;
 using Sokoban.Model.GameObjects;
 using Sokoban.Model.Interfaces;
@@ -10,39 +10,49 @@ namespace Sokoban.WarehouseCreator
 {
     public class WarehouseCreator
     {
+        private readonly IEnumerator<IGameObject>[,] staticObjects;
+        private readonly Box[,] boxes;
+        private WarehouseKeeper keeper = new WarehouseKeeper(0, 0);
         public readonly int Height;
         public readonly int Width;
-        private ImmutableDictionary<Vector, Box> boxes;
-        private WarehouseKeeper keeper = new WarehouseKeeper(0, 0);
-        private ImmutableDictionary<Vector, IEnumerator<IGameObject>> staticObjects;
+        public Warehouse CurrentWarehouse { get; private set; }
+
+        public IEnumerable<IGameObject> StaticsObjects => staticObjects
+            .Cast<IEnumerator<IGameObject>>()
+            .Select(obj => obj.Current);
+
+        public IEnumerable<Box> Boxes => boxes.Cast<Box>().Where(box => box != null);
 
         public WarehouseCreator(int height, int width)
         {
             Height = height;
             Width = width;
-
-            var staticObjectsDict = new Dictionary<Vector, IEnumerator<IGameObject>>();
+            staticObjects = new IEnumerator<IGameObject>[height, width];
 
             for (var y = 0; y < height; y++)
                 for (var x = 0; x < width; x++)
                 {
-                    staticObjectsDict[new Vector(x, y)] = StaticObjectsGenerator(x, y).GetEnumerator();
-                    staticObjectsDict[new Vector(x, y)].MoveNext();
+                    staticObjects[y, x] = StaticObjectsGenerator(x, y).GetEnumerator();
+                    staticObjects[y, x].MoveNext();
                 }
-            staticObjects = staticObjectsDict.ToImmutableDictionary();
-            boxes = Enumerable.Empty<Box>().ToImmutableDictionary(b => b.Location);
+
+            boxes = new Box[height, width];
             SetKeeper(0, 0);
-            CurrentWarehouse = new Warehouse(StaticObjects, Boxes, keeper);
+
+            CurrentWarehouse = new Warehouse(StaticsObjects, Boxes, keeper);
         }
-
-        public Warehouse CurrentWarehouse { get; private set; }
-
-        public IEnumerable<IGameObject> StaticObjects => staticObjects.Values.Select(g => g.Current);
-        public IEnumerable<Box> Boxes => boxes.Values.Where(box => box != null);
 
         private bool IsOutOfRange(int x, int y)
         {
             return x >= 0 && x < Width && y >= 0 && y < Height;
+        }
+
+        private void DoAct(int x, int y, Action act)
+        {
+            if (!IsOutOfRange(x, y))
+                throw new ArgumentOutOfRangeException();
+            act();
+            UpdateWarehouseIfCorrect();
         }
 
 
@@ -51,7 +61,7 @@ namespace Sokoban.WarehouseCreator
             if (keeper == null)
                 return;
 
-            var newWarehouse = new Warehouse(StaticObjects, Boxes, keeper);
+            var newWarehouse = new Warehouse(StaticsObjects, Boxes, keeper);
 
             if (newWarehouse.IsCorrectWarehouse())
                 CurrentWarehouse = newWarehouse;
@@ -59,41 +69,18 @@ namespace Sokoban.WarehouseCreator
 
         public void SetKeeper(int x, int y)
         {
-            var newKeeper = new WarehouseKeeper(x, y);
-            var newWarehous = new Warehouse(StaticObjects, Boxes, newKeeper);
-            if (!newWarehous.IsCorrectWarehouse()) return;
-            keeper = newKeeper;
-            CurrentWarehouse = newWarehous;
+            keeper = new WarehouseKeeper(x, y);
+            UpdateWarehouseIfCorrect();
         }
 
         public void SetBox(int x, int y)
         {
-            var newBoxes = boxes
-                .SetItem(new Vector(x, y),
-                    boxes.ContainsKey(new Vector(x, y)) && boxes[new Vector(x, y)] != null ? null : new Box(x, y));
-
-            var newWarehouse = new Warehouse(StaticObjects, newBoxes.Values.Where(b => b != null), keeper);
-            if (!newWarehouse.IsCorrectWarehouse()) return;
-            boxes = newBoxes;
-            CurrentWarehouse = newWarehouse;
+            DoAct(x, y, () => boxes[y, x] = boxes[y, x] == null ? new Box(x, y) : null);
         }
 
 
-        public void NextStaticObject(int x, int y)
-        {
-            var vector = new Vector(x, y);
-            staticObjects[vector].MoveNext();
-            var newWarehouse = new Warehouse(StaticObjects, Boxes, keeper);
-            if (!newWarehouse.IsCorrectWarehouse())
-            {
-                staticObjects = staticObjects.SetItem(vector, StaticObjectsGenerator(x, y).GetEnumerator());
-                staticObjects[vector].MoveNext();
-            }
-            else
-            {
-                CurrentWarehouse = newWarehouse;
-            }
-        }
+        public void NextStaticObject(int x, int y) =>
+            DoAct(x, y, () => staticObjects[y, x].MoveNext());
 
         private static IEnumerable<IGameObject> StaticObjectsGenerator(int x, int y)
         {

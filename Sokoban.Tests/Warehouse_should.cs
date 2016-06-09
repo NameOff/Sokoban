@@ -47,8 +47,8 @@ namespace Sokoban.Tests
                 new Wall(4, 2),
                 new Wall(0, 3),
                 new Floor(1, 3),
-                new Floor(2, 3),
-                new Floor(3, 3),
+                new Storage(2, 3), 
+                new Floor(3, 3), 
                 new Wall(4, 3),
                 new Wall(0, 4),
                 new Wall(1, 4),
@@ -72,6 +72,68 @@ namespace Sokoban.Tests
         {
             var arrayIndex = staticObject.Location.Y*5 + staticObject.Location.X;
             return staticObjects.SetItem(arrayIndex, staticObject);
+        }
+
+        [Test]
+        public void BePassable_OnFloor()
+        {
+            warehouse.IsPassable(new Vector(1, 1)).Should().BeTrue();
+        }
+
+        [Test]
+        public void BePassable_OnStorage()
+        {
+            warehouse.IsPassable(new Vector(2, 3)).Should().BeTrue();
+        }
+
+        [Test]
+        public void NotBePassable_OnWall()
+        {
+            warehouse.IsPassable(new Vector(0, 0)).Should().BeFalse();
+        }
+
+        [Test]
+        public void BeCorrect_WhenKeeperOnFloor()
+        {
+            warehouse.IsCorrectWarehouse().Should().BeTrue();
+        }
+
+        [Test]
+        public void BeCorrect_WhenKeeperOnStorage()
+        {
+            var newWarehouse = new Warehouse(warehouse.StaticObjects, warehouse.Boxes, new WarehouseKeeper(new Vector(2, 3)));
+            newWarehouse.IsCorrectWarehouse().Should().BeTrue();
+        }
+
+        [Test]
+        public void NotBeCorrect_WhenKeeperOnWall()
+        {
+            var newWarehouse = new Warehouse(warehouse.StaticObjects,warehouse.Boxes, new WarehouseKeeper(new Vector(0, 0)));
+            newWarehouse.IsCorrectWarehouse().Should().BeFalse();
+        }
+
+        [Test]
+        public void ReturnFloor_OnFloorLocation()
+        {
+            warehouse.GetStaticObject(new Vector(1, 1)).Should().BeOfType<Floor>();
+        }
+
+        [Test]
+        public void ReturnStorage_OnStorageLocation()
+        {
+            warehouse.GetStaticObject(new Vector(2, 3)).Should().BeOfType<Storage>();
+        }
+
+        [Test]
+        public void ReturnWall_OnWallLocation()
+        {
+            warehouse.GetStaticObject(new Vector(0, 0)).Should().BeOfType<Wall>();
+        }
+
+        [Test]
+        public void ReturnWall_OnOutrangedLocation()
+        {
+            warehouse.GetStaticObject(new Vector(1000, 100)).Should().BeOfType<Wall>();
         }
 
         [Test]
